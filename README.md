@@ -19,13 +19,16 @@ Welcome to the Audience Questions application! This app is designed for conferen
 
 ### Setup
 
-1. Install the genezio CLI (npm install genezio -g)
+1. Install the genezio CLI (`npm install genezio -g`)
 2. Clone this repository.
 3. Set up your environment variables:
    - Copy `server/.env.sample` to `server/.env`.
    - Update the `SPEAKER_SECRET` with your secret key.
    - Set the MongoDB connection URL.
 4. Deploy the application using `genezio deploy`.
+5. Update the SOCKET_URL env variable: Go to https://app.genez.io/dashboard, choose your project, click "Test Project" and copy the class URL. You can find it under "Requests will be sent to" and should look somethink like "https://GUID.us-east-1.cluster.genez.io"
+6. run `genezio deploy` again
+7. Go to https://app.genez.io/dashboard, choose your project, Backend, Environment Variables, and make sure that what you have in the local `server/.env` file matches
 
 ## Usage
 
