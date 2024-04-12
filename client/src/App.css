@@ -1,0 +1,104 @@
+/* Base styles */
+body, button, input {
+  font-family: 'Arial', sans-serif;
+}
+
+#root {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 800px;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.users-online {
+  font-size: 16px; /* Adjust font size as needed */
+  color: #333; /* Adjust color to match your design */
+}
+
+.new-question {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.new-question label {
+  flex-basis: 100%;
+}
+
+.new-question input {
+  flex-grow: 1;
+  padding: 10px;
+  margin-right: auto; /* Ensures it takes up maximum available space */
+}
+
+.new-question button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 100px; /* Fixed width for the button */
+}
+
+.new-question button:hover {
+  background-color: #0056b3;
+}
+
+#questionsList {
+  list-style: none;
+  padding: 0;
+}
+
+#questionsList li {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #f7f7f7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#questionsList li button {
+  padding: 5px 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+
+  *, *::before, *::after {
+    box-sizing: border-box; /* Ensure padding and border are included in the element's width */
+  }
+  
+  .new-question {
+      flex-direction: column;
+  }
+
+  .new-question input, .new-question button {
+      width: 100%;
+      margin-right: 0; /* Remove any right margin */
+      flex-grow: 0; /* Prevent the input from growing beyond 100% width */
+  }
+}
+
+/* Handling no questions */
+#questionsList:empty::before {
+  content: 'No questions to display.';
+  display: block;
+  padding: 20px;
+  text-align: center;
+  color: #999;
+}
+
+.qr-speaker {
+  text-align: center;
+}
