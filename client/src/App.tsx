@@ -6,6 +6,7 @@ import Audience from './Audience';
 import Speaker from './Speaker';
 import QR from './QR';
 import Secret from './Secret';
+import Icons from './Icons';
 
 export default function App() {
   const [usersOnline, setUsersOnline] = useState(0);
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/secret" element={<Secret/>} />
         </Routes>
       </BrowserRouter>
+      <Icons/>
     </>
   );
 }

@@ -102,3 +102,13 @@ h1, h2 {
 .qr-speaker {
   text-align: center;
 }
+
+.logos {
+  position: fixed;
+  right:10px;
+  bottom:10px;
+}
+
+.logos img {
+  margin: 2px;
+}
