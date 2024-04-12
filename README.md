@@ -13,7 +13,7 @@ Welcome to the Audience Questions application! This app is designed for conferen
 
 ### Prerequisites
 
-- A genezio.com account.
+- A https://genezio.com/ account.
 - The genezio CLI installed on your local machine.
 - MongoDB connection set up as the database. (go to https://mongodb.com/ to get one)
 
