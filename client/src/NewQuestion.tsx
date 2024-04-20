@@ -6,7 +6,11 @@ export default function NewQuestion() {
 
     const sendQuestion = async () => {
         let q:Question = {text: question}
-        await BackendService.newQuestion(q);
+        try {
+            await BackendService.newQuestion(q);
+        } catch(e) {
+            alert(e);
+        }
         setQuestion("");
     };
 

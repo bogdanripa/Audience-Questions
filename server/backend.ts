@@ -1,7 +1,8 @@
-import { GenezioDeploy, GenezioMethod } from "@genezio/types";
+import { GenezioDeploy } from "@genezio/types";
 import { Collection, MongoClient } from "mongodb";
 import {Server, Socket} from "socket.io";
 import http from 'http';
+import { QuestionValidator } from "./questionValidator";
 
 type Question = {
   text: string;
@@ -14,31 +15,33 @@ export class BackendService {
   private collection: Collection<Question> | undefined;
   private socketListener: Server;
   private connectedSockets: Socket[] = [];
+  private qv:QuestionValidator;
 
   constructor(server: http.Server) {
+    this.qv = new QuestionValidator();
     this.initMongo();
-      // Call the asynchronous init method from the constructor
-      this.socketListener =new Server(server, {cors: {origin: ["http://localhost:5173", "https://apricot-devoted-cephalopod.app.genez.io"]}})
-      this.socketListener.on("connection",(socket: Socket) => {
-        console.log("A user connected");
-        this.connectedSockets.push(socket);
+    // Call the asynchronous init method from the constructor
+    this.socketListener =new Server(server, {cors: {origin: ["http://localhost:5173", "https://apricot-devoted-cephalopod.app.genez.io"]}})
+    this.socketListener.on("connection",(socket: Socket) => {
+      console.log("A user connected");
+      this.connectedSockets.push(socket);
 
-        socket.on("ping", () => {
-          console.log("Ping received!")
-          socket.emit("pong")
-        })
+      socket.on("ping", () => {
+        console.log("Ping received!")
+        socket.emit("pong")
+      })
 
-        socket.on("disconnect", () => {
-          console.log("User disconnected");
-          // Remove the disconnected socket from the array of connected sockets
-          this.connectedSockets = this.connectedSockets.filter(s => s !== socket);
-          this.emit("user count", this.connectedSockets.length);
-        });
-
+      socket.on("disconnect", () => {
+        console.log("User disconnected");
+        // Remove the disconnected socket from the array of connected sockets
+        this.connectedSockets = this.connectedSockets.filter(s => s !== socket);
         this.emit("user count", this.connectedSockets.length);
-  
       });
-      console.log("Constructor done");
+
+      this.emit("user count", this.connectedSockets.length);
+
+    });
+    console.log("Constructor done");
   }
 
   private initMongo() {
@@ -74,11 +77,16 @@ export class BackendService {
     q.votes = 1;
 
     try {
-        // Insert the new question into the MongoDB collection
-        await this.collection.insertOne(q);
-        console.log("New question added:", q);
-        
-        this.emit('new question', q);
+        if ((await this.qv.isOffensive(q.text)) === true) {
+          console.log("Inappropriate question identified", q.text);
+          throw new Error("There was an error adding your question");
+        } else {
+          // Insert the new question into the MongoDB collection
+          await this.collection.insertOne(q);
+          console.log("New question added:", q);
+          
+          this.emit('new question', q);
+        }
     } catch (error) {
         console.error("Error adding new question:", error);
         throw error; // Propagate the error to the caller
@@ -112,10 +120,10 @@ export class BackendService {
 
   async answer(q: Question, secret: string): Promise<void> {
     if (!this.collection) return;
-    if (secret != process.env.SPEAKER_SECRET) throw new Error("Wrong secret");
+    if (secret != process.env.SPEAKER_SECRET) throw new Error("Wrong secret: " + secret);
     try {
       // Find the question by its ID and increment the votes
-      await this.collection.updateOne({ text: q.text }, { $set: { answered: true } });
+      await this.collection.updateMany({ text: q.text }, { $set: { answered: true } });
       q.answered = true;
       this.emit('update question', q);
 

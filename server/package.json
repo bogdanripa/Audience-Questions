@@ -9,8 +9,10 @@
     "license": "ISC",
     "dependencies": {
         "@genezio/types": "^1.0.14",
+        "axios": "^1.6.8",
         "mongodb": "^6.5.0",
         "node-fetch": "^3.3.2",
+        "openai": "^4.38.2",
         "socket.io": "^4.7.5"
     },
     "prettier": {
