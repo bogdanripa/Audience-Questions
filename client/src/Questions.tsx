@@ -51,7 +51,7 @@ export default function Questions({mode, setUsersOnline}: QuestionsProps) {
     const initWSComms = async () => {
         // Determine the current URL and port of the client application
         // Create a new WebSocket instance and connect to the server
-        let url:string = await BackendService.getSecketURL()
+        let url:string = await BackendService.getSocketURL()
         ws = io(url);
 
         // Event listener for WebSocket open connection
@@ -79,13 +79,6 @@ export default function Questions({mode, setUsersOnline}: QuestionsProps) {
     }
 
     useEffect( () => {
-        if (mode == "speaker") {
-            let secret = localStorage.getItem('secret') || '';
-            if (!secret) {
-                navigate('/secret/');
-                return;
-            }
-        }
         fetchQuestions();
         initWSComms();
     }, []);

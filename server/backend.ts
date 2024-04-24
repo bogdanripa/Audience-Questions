@@ -131,10 +131,15 @@ export class BackendService {
     }
   }
 
-  getSecketURL(): string {
+  getSocketURL(): string {
     if (process.env.SOCKET_URL)
       return process.env.SOCKET_URL;
     else 
       return "UNDEFINED";
   }
+
+  checkSecret(secret:string): boolean {
+    return secret == process.env.SPEAKER_SECRET;
+  }
+
 }
