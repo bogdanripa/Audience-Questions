@@ -50,11 +50,11 @@ export class BackendService {
             const database = client.db("Demo");
             this.collection = database.collection<Question>("questions");
           })
-          .catch((error) => {
+          .catch((error: Error) => {
             console.error("Error connecting to the database:", error.message);
             throw error; // Propagate the error to the caller
           })
-      } catch (error) {
+      } catch (error: any) {
           console.error("Error connecting to the database:", error.message);
           throw error; // Propagate the error to the caller
       }
@@ -84,7 +84,7 @@ export class BackendService {
           
           this.emit('new question', q);
         }
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error adding new question:", error.message);
         throw error; // Propagate the error to the caller
     }
@@ -109,7 +109,7 @@ export class BackendService {
       this.emit('update question', q);
       
       console.log("Vote counted for question:", q.text);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error counting vote for question:", q.text, error.message);
       throw error; // Propagate the error to the caller
     }
@@ -125,7 +125,7 @@ export class BackendService {
       this.emit('update question', q);
 
       console.log("Answered question:", q.text);
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error answering question:", q.text, error.message);
         throw error; // Propagate the error to the caller
     }
