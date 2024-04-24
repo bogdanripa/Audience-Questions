@@ -1,7 +1,7 @@
 import QRCode from 'qrcode.react';
 
 export default function QR() {
-const currentUrl = window.location.href.replace(/\/qr.*$/, '');
+    let currentUrl = window.location.protocol + '//' + window.location.host + '/';
 
     return (
         <div className="qr">
