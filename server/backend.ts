@@ -26,11 +26,6 @@ export class BackendService {
       console.log("A user connected");
       this.connectedSockets.push(socket);
 
-      socket.on("ping", () => {
-        console.log("Ping received!")
-        socket.emit("pong")
-      })
-
       socket.on("disconnect", () => {
         console.log("User disconnected");
         // Remove the disconnected socket from the array of connected sockets
@@ -80,12 +75,12 @@ export class BackendService {
 
     try {
         if ((await this.qv.isOffensive(q.text)) === true) {
-          console.log("Inappropriate question identified", q.text);
+          console.log("Inappropriate question identified: ", q.text);
           throw new Error("There was an error adding your question");
         } else {
           // Insert the new question into the MongoDB collection
           await this.collection.insertOne(q);
-          console.log("New question added:", q);
+          console.log("New question added:", q.text);
           
           this.emit('new question', q);
         }

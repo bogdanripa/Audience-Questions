@@ -57,15 +57,8 @@ export default function Questions({mode, setUsersOnline}: QuestionsProps) {
         // Event listener for WebSocket open connection
         ws.on('connect', () => {
             console.log('WebSocket connected');
-            // Send a "ping" command after connection
-            ws.timeout(5000).emit('ping');
         });
         
-        // Event listener for receiving messages from the server
-        ws.on('pong', () => {
-            console.log('Received pong from server');
-        });
-
         ws.on('new question', onNewQuestion);
         ws.on('update question', onUpdateQuestion);
         ws.on('user count', onUserCountUpdate)
