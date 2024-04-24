@@ -9,7 +9,7 @@ export default function NewQuestion() {
         try {
             await BackendService.newQuestion(q);
         } catch(e) {
-            alert(e);
+            alert(e.message);
         }
         setQuestion("");
     };

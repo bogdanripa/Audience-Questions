@@ -75,6 +75,8 @@ export class BackendService {
     if (!this.collection) return;
     q.answered = false;
     q.votes = 1;
+    if (q.text.trim().length<6)
+    	throw new Error("Please enter a question");
 
     try {
         if ((await this.qv.isOffensive(q.text)) === true) {
